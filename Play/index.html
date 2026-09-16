@@ -1,1 +1,485 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>TG_@Cricinsider365</title>
+<script>(function(s){s.dataset.zone='11621694',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%2316a34a'/%3E%3Cpath d='M6 6.5 C8 9 8 15 6 17.5' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3Cpath d='M18 6.5 C16 9 16 15 18 17.5' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=Sora:wght@600;700;800&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ════════ UTILITY REPLACEMENTS ════════ */
+        .hidden { display: none !important; }
+        .flex { display: flex !important; }
 
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #000;
+            color: #f8fafc;
+            font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+            overflow: hidden;
+        }
+
+        /* ════════ CUSTOM iOS-STYLE PLAYER ════════ */
+        .player-shell {
+            position: absolute;
+            inset: 0;
+            background: transparent;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-area {
+            position: absolute;
+            inset: 0;
+            background: #000;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        #native-video {
+            position: absolute;
+            inset: 0;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: contain;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            background: #000;
+            display: block;
+        }
+
+        /* Brand Watermark */
+        .brand-watermark {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 20;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 8px 14px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            pointer-events: none;
+            opacity: 0.8;
+        }
+        .brand-watermark .logo-icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #22c55e, #15803d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .brand-watermark .logo-icon svg { width: 15px; height: 15px; }
+        .brand-watermark .text {
+            font-family: 'Sora', sans-serif;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #fff;
+        }
+        .brand-watermark .text .x { color: #4ade80; }
+
+        @media (max-width: 640px) {
+            .brand-watermark { top: 12px; left: 12px; padding: 6px 10px; gap: 6px; }
+            .brand-watermark .text { font-size: 10px; }
+            .brand-watermark .logo-icon { width: 18px; height: 18px; }
+            .brand-watermark .logo-icon svg { width: 12px; height: 12px; }
+        }
+
+        /* Player Message Overlay */
+        .player-message {
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            text-align: center;
+            padding: 0 1.5rem;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+            color: #cbd5e1;
+            z-index: 50;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Bottom Control Pill */
+        .ios-bottom-bar {
+            position: absolute;
+            bottom: 20px; left: 50%;
+            transform: translateX(-50%);
+            z-index: 30;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            width: calc(100% - 32px);
+            max-width: 900px;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .hide-controls .ios-bottom-bar {
+            opacity: 0;
+            transform: translateX(-50%) translateY(20px);
+            pointer-events: none;
+        }
+
+        /* Progress Bar */
+        .ios-progress-track {
+            width: 100%;
+            height: 24px;
+            display: flex; align-items: center;
+            cursor: pointer;
+            padding: 8px 0;
+        }
+        .ios-progress-rail {
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 100px;
+            position: relative;
+            transition: height 0.15s;
+        }
+        .ios-progress-track:hover .ios-progress-rail { height: 6px; }
+        .ios-progress-filled {
+            position: absolute; left: 0; top: 0;
+            height: 100%;
+            background: #fff;
+            border-radius: 100px;
+            pointer-events: none;
+        }
+        .ios-progress-thumb {
+            position: absolute; top: 50%;
+            width: 14px; height: 14px;
+            background: #fff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            pointer-events: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+            transition: transform 0.15s;
+        }
+        .ios-progress-track:hover .ios-progress-thumb { transform: translate(-50%, -50%) scale(1); }
+
+        /* Control Pill Bar */
+        .ios-pill-bar {
+            width: 100%;
+            background: rgba(30, 30, 35, 0.85);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        }
+
+        .ios-btn {
+            background: transparent;
+            border: none;
+            width: 40px; height: 40px;
+            display: grid; place-items: center;
+            cursor: pointer;
+            transition: all 0.15s;
+            color: rgba(255,255,255,0.9);
+            border-radius: 50%;
+        }
+        .ios-btn:hover { background: rgba(255,255,255,0.1); }
+        .ios-btn:active { transform: scale(0.9); }
+        .ios-btn svg { width: 22px; height: 22px; }
+
+        .ios-time {
+            font-size: 12px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.7);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+            padding: 0 8px;
+            user-select: none;
+        }
+        .ios-spacer { flex: 1; }
+
+        /* Quality Menu */
+        .ios-menu-wrap { position: relative; }
+        .ios-quality-menu {
+            position: absolute;
+            bottom: calc(100% + 12px);
+            right: 0;
+            background: rgba(30, 30, 35, 0.95);
+            backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 6px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            z-index: 40;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+            transform-origin: bottom right;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.85);
+            min-width: 120px;
+        }
+        .ios-quality-menu.open {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+        }
+        .ios-quality-item {
+            padding: 10px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.6);
+            transition: all 0.12s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .ios-quality-item:hover { background: rgba(255,255,255,0.1); color: #fff; }
+        .ios-quality-item.active { color: #fff; background: rgba(255,255,255,0.1); }
+        .ios-quality-item.active::after {
+            content: '✓';
+            font-size: 14px;
+            margin-left: 8px;
+        }
+
+        /* Center Play/Pause Flash */
+        .ios-center-flash {
+            position: absolute;
+            inset: 0;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 15;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        .ios-center-flash.show { opacity: 1; }
+        .ios-center-circle {
+            width: 72px; height: 72px;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(20px);
+            border-radius: 50%;
+            display: grid; place-items: center;
+            transform: scale(0.6);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .ios-center-flash.show .ios-center-circle { transform: scale(1); }
+        .ios-center-circle svg { width: 32px; height: 32px; color: #fff; }
+
+        /* ════════ TELEGRAM POPUP ════════ */
+        .tg-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.75);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .tg-modal.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .tg-box {
+            background: linear-gradient(180deg, #0c1a12, #070f0a);
+            border: 1px solid rgba(34, 197, 94, 0.35);
+            border-radius: 28px;
+            padding: 36px 28px;
+            max-width: 360px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(0,0,0,.6);
+            transform: scale(0.9);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .tg-modal.show .tg-box {
+            transform: scale(1);
+        }
+        .tg-icon {
+            width: 76px; height: 76px;
+            margin: 0 auto 20px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, #229ED9, #1a8bbf);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            color: white;
+            box-shadow: 0 12px 30px rgba(34,158,217,.4);
+        }
+        .tg-box h3 {
+            font-family: 'Sora', sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            margin: 0 0 8px;
+        }
+        .tg-box h3 .brand-x { color: #4ade80; }
+        .tg-box p {
+            color: #7b8aa8;
+            font-size: 14px;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        .tg-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .tg-actions button {
+            flex: 1;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            transition: .25s;
+            font-family: inherit;
+        }
+        .tg-yes {
+            background: linear-gradient(135deg, #229ED9, #1a8bbf);
+            color: white;
+        }
+        .tg-yes:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(34,158,217,.5);
+        }
+        .tg-no {
+            background: rgba(255,255,255,0.05);
+            color: #94a3b8;
+        }
+        .tg-no:hover {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 640px) {
+            .ios-btn { width: 36px; height: 36px; }
+            .ios-btn svg { width: 20px; height: 20px; }
+            .ios-pill-bar { padding: 6px 8px; border-radius: 20px; gap: 2px; }
+            .ios-time { font-size: 11px; padding: 0 4px; }
+            .ios-bottom-bar { bottom: 12px; width: calc(100% - 16px); }
+            .tg-box { padding: 28px 20px; }
+        }
+    </style>
+<style type="text/css">* {user-select: auto !important; -webkit-user-select: auto !important;}</style><input type="hidden" id="inject_idm_text_selection"><style></style></head>
+<body>
+    <!-- ════════ CUSTOM PLAYER ════════ -->
+    <div class="player-shell">
+
+        <!-- Video Area -->
+        <div id="video-area" class="video-area hide-controls">
+            <video id="native-video" autoplay="" playsinline="" referrerpolicy="no-referrer" src="https://in-mc-flive.fancode.com/mumbai/4248491_hindi_hls_ed24a8186993836_1ta-di_h264/1080p.m3u8?hdntl=Expires=1789392659~_GO=Generated~acl=/mumbai/4248491_hindi_hls_ed24a8186993836_1ta-di_h264/*~Signature=AWDec-HByQhk68qSCnCZyABpf45aQQnnay5WKHnruoErrGrN-vafHAIvAttH8kmxylYL3z2vHk2KCGSXRBizd32DMxwF"></video>
+
+            <!-- Brand Watermark (Cricket Ball Logo · ) -->
+            <div class="brand-watermark">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <circle cx="12" cy="12" r="8.75" fill="#fff"></circle>
+                        <path d="M6.1 6.4 C 7.9 8.6, 7.9 15.4, 6.1 17.6" stroke="#15803d" stroke-width="1.6" stroke-linecap="round"></path>
+                        <path d="M17.9 6.4 C 16.1 8.6, 16.1 15.4, 17.9 17.6" stroke="#15803d" stroke-width="1.6" stroke-linecap="round"></path>
+                    </svg>
+                </div>
+                <span class="text">TG@Cricinsider365 <span class="x">✘</span></span>
+            </div>
+
+            <div id="player-message" class="player-message hidden"></div>
+
+            <!-- Center Flash -->
+            <div id="center-flash" class="ios-center-flash">
+                <div class="ios-center-circle">
+                    <svg id="center-play-svg" fill="currentColor" viewBox="0 0 24 24" class="hidden"><path d="M8 5v14l11-7z"></path></svg>
+                    <svg id="center-pause-svg" fill="currentColor" viewBox="0 0 24 24" class=""><rect x="6" y="4" width="4" height="16" rx="1.5"></rect><rect x="14" y="4" width="4" height="16" rx="1.5"></rect></svg>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div id="ios-bottom-bar" class="ios-bottom-bar">
+                <!-- Scrubber -->
+                <div id="progress-track" class="ios-progress-track">
+                    <div class="ios-progress-rail">
+                        <div id="progress-filled" class="ios-progress-filled" style="width:0%"></div>
+                        <div id="progress-thumb" class="ios-progress-thumb" style="left:0%"></div>
+                    </div>
+                </div>
+
+                <!-- Controls Pill -->
+                <div class="ios-pill-bar">
+                    <button id="play-pause-btn" class="ios-btn" title="Play/Pause">
+                        <svg id="icon-play" fill="currentColor" viewBox="0 0 24 24" class="hidden"><path d="M8 5v14l11-7z"></path></svg>
+                        <svg id="icon-pause" fill="currentColor" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" rx="1.5"></rect><rect x="14" y="4" width="4" height="16" rx="1.5"></rect></svg>
+                    </button>
+
+                    <!-- Mute Button -->
+                    <button id="mute-btn" class="ios-btn" title="Mute/Unmute (M)">
+                        <svg id="icon-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                        <svg id="icon-unmuted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="hidden"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 010 7.07"></path><path d="M19.07 4.93a10 10 0 010 14.14"></path></svg>
+                    </button>
+
+                    <span class="ios-time"><span id="cur-time">0:02</span></span>
+
+                    <div class="ios-spacer"></div>
+
+                    <!-- Quality Menu -->
+                    <div class="ios-menu-wrap">
+                        <button id="quality-btn" class="ios-btn" title="Quality">
+                            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"></path></svg>
+                        </button>
+                        <div id="quality-menu" class="ios-quality-menu"><div class="ios-quality-item active">Auto</div><div class="ios-quality-item">Native</div></div>
+                    </div>
+
+                    <button id="fs-btn" class="ios-btn" title="Fullscreen">
+                        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ════════ TELEGRAM MODAL ════════ -->
+    <div id="tg-modal" class="tg-modal">
+        <div class="tg-box">
+            <div class="tg-icon"><i class="fab fa-telegram-plane"></i></div>
+            <h3>Join The Cricinsider365 <span class="brand-x">✘</span> Cricinsider365</h3>
+            <p>Get instant alerts for live cricket matches, real-time scores, breaking news &amp; exclusive streams — straight in our Telegram channel.</p>
+            <div class="tg-actions">
+                <button class="tg-no" onclick="closeTg()">Later</button>
+                <button class="tg-yes" onclick="openTg()">Join Now</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+        let hlsInstance = null;
+        let isDragging = false;
+        let controlsTimer = null;
+        let isQualityMenuOpen = false;
+
+        // DOM Elements
+        const video = document.getElementById("native-video");
+        const message = document.getElementById("player-message");
+
+        // Player Controls DOM
+        const videoArea = document.getElementById("video-area");
+        const playPauseBtn = document
