@@ -1,168 +1,687 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>TG_@Cricinsider365</title>
-<script>(function(s){s.dataset.zone='11621694',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-    <meta name="referrer" content="no-referrer">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <!-- Plyr + HLS.js -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css" crossorigin="anonymous" />
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.7/dist/hls.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.min.js" crossorigin="anonymous"></script>
+<title>TG_@Cricinsider365</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@4.3.4/dist/controls.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <style>
-        /* Reset & Fullscreen */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        html, body {
-            width: 100%;
-            height: 100%;
-            background: #000;
-            overflow: hidden;
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
+<style>
 
-        .player-container {
-            position: fixed;
-            inset: 0;
-            background: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+:root {
+    --bg-color: #070b1a;
+    --primary-red: #4f46e5;
+    --primary-red-dark: #9333ea;
+    --card-bg: #0f172a;
+    --text-light: #e2e8f0;
+    --text-muted: #94a3b8;
+    --border-color: #1e293b;
+}
 
-        .plyr {
-            width: 100%;
-            height: 100%;
-        }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        .plyr__video-wrapper {
-            height: 100%;
-        }
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-light);
 
-        video {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            background: #000;
-        }
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-        /* Custom watermark */
-        .custom-watermark {
-            position: absolute;
-            z-index: 40;
-            pointer-events: none;
-            bottom: 80px;
-            right: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.10);
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
+    min-height: 100vh;
+    padding: 1rem;
+}
 
-        /* Loading overlay */
-        .loading-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            background: #000;
-            color: #fff;
-            z-index: 2000;
-            font-size: 18px;
-            pointer-events: none;
-        }
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, .15);
-            border-top: 4px solid #3b82f6;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin-bottom: 12px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
 
-        /* Plyr overrides for dark theme */
-        .plyr--video {
-            background: #000;
-        }
-        .plyr__controls {
-            background: rgba(0, 0, 0, 0.75) !important;
-            backdrop-filter: blur(8px);
-        }
-        .plyr__control--overlaid {
-            background: rgba(255, 59, 48, 0.9) !important;
-        }
-        .plyr__control--overlaid svg {
-            fill: #fff !important;
-        }
-        .plyr__progress__buffer {
-            background: rgba(255, 255, 255, 0.2) !important;
-        }
-        .plyr__progress__played {
-            background: #ff3b30 !important;
-        }
-        .plyr__menu__container {
-            background: rgba(20, 20, 20, 0.95) !important;
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 12px;
-        }
-        .plyr__menu__container .plyr__control--back {
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .plyr__volume input[type="range"] {
-            background: rgba(255,255,255,0.2) !important;
-        }
-        .plyr__volume input[type="range"]::-webkit-slider-thumb {
-            background: #ff3b30 !important;
-        }
-        .plyr__volume input[type="range"]::-moz-range-thumb {
-            background: #ff3b30 !important;
-        }
+    animation: fadeIn 0.5s ease-out forwards;
+}
 
-        @media (max-width: 700px) {
-            .custom-watermark {
-                font-size: 9px;
-                bottom: 70px;
-                right: 14px;
-            }
-        }
-    </style>
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================
+   EARN REWARD HEADER
+========================= */
+
+.reward-header {
+    width: 100%;
+    min-height: 115px;
+
+    padding: 18px 28px;
+
+    display: flex;
+    align-items: center;
+    gap: 25px;
+
+    border-radius: 28px;
+
+    background: linear-gradient(
+        100deg,
+        #ff9200 0%,
+        #ffad00 45%,
+        #ffd21a 100%
+    );
+
+    border: 2px solid rgba(255, 220, 80, 0.8);
+
+    box-shadow:
+        0 0 12px rgba(255, 190, 0, 0.8),
+        0 0 30px rgba(255, 200, 0, 0.55),
+        0 0 60px rgba(255, 190, 0, 0.3);
+
+    cursor: pointer;
+
+    margin-bottom: 1rem;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+    overflow: hidden;
+}
+
+.reward-header:hover {
+    transform: scale(1.01);
+
+    box-shadow:
+        0 0 18px rgba(255, 210, 0, 1),
+        0 0 40px rgba(255, 200, 0, 0.7),
+        0 0 75px rgba(255, 190, 0, 0.4);
+}
+
+
+/* =========================
+   GOLD COIN
+========================= */
+
+.reward-coin {
+    width: 75px;
+    height: 75px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 43px;
+    font-weight: 800;
+
+    color: #6b3d00;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #fff3a0 0%,
+            #ffd52e 25%,
+            #ffb300 60%,
+            #d98200 100%
+        );
+
+    border: 5px solid #e39a00;
+
+    box-shadow:
+        inset 0 3px 5px rgba(255,255,255,0.7),
+        inset 0 -5px 8px rgba(120,60,0,0.35),
+        0 4px 8px rgba(100,50,0,0.35),
+        0 0 15px rgba(255,230,80,0.8);
+
+    text-shadow:
+        1px 2px 2px rgba(255,255,255,0.35);
+
+    animation: coinGlow 1.5s infinite alternate;
+}
+
+@keyframes coinGlow {
+
+    from {
+        box-shadow:
+            inset 0 3px 5px rgba(255,255,255,0.7),
+            inset 0 -5px 8px rgba(120,60,0,0.35),
+            0 4px 8px rgba(100,50,0,0.35),
+            0 0 10px rgba(255,230,80,0.6);
+    }
+
+    to {
+        box-shadow:
+            inset 0 3px 5px rgba(255,255,255,0.7),
+            inset 0 -5px 8px rgba(120,60,0,0.35),
+            0 4px 8px rgba(100,50,0,0.35),
+            0 0 25px rgba(255,240,100,1);
+    }
+}
+
+
+/* =========================
+   REWARD TEXT
+========================= */
+
+.reward-text {
+    flex: 1;
+}
+
+.reward-title {
+    font-size: 2rem;
+
+    line-height: 1.1;
+
+    font-weight: 800;
+
+    letter-spacing: 0.5px;
+
+    color: #210d00;
+
+    text-shadow:
+        1px 2px 1px rgba(255,255,255,0.15);
+}
+
+.reward-subtitle {
+    margin-top: 7px;
+
+    font-size: 1.35rem;
+
+    font-weight: 500;
+
+    color: #6b3d00;
+}
+
+.reward-subtitle span {
+    font-size: 1rem;
+    margin-left: 3px;
+}
+
+
+/* =========================
+   RIGHT ARROW
+========================= */
+
+.reward-arrow {
+    font-size: 4rem;
+
+    line-height: 1;
+
+    font-weight: 300;
+
+    color: #795000;
+
+    text-shadow:
+        0 2px 3px rgba(255,255,255,0.2);
+
+    padding-right: 5px;
+
+    animation: arrowMove 1s infinite alternate;
+}
+
+@keyframes arrowMove {
+
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(6px);
+    }
+}
+
+
+/* =========================
+   PLAYER
+========================= */
+
+#player-container {
+    width: 100%;
+
+    aspect-ratio: 16/9;
+
+    max-height: 70vh;
+
+    background-color: #000;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+
+/* =========================
+   INFO CARD
+========================= */
+
+.info-card {
+    background-color: var(--card-bg);
+
+    border: 1px solid var(--border-color);
+
+    border-radius: 12px;
+
+    padding: 1.25rem;
+
+    margin-top: 1rem;
+
+    text-align: center;
+}
+
+.info-card h2 {
+    font-size: 1rem;
+
+    font-weight: 600;
+
+    margin-bottom: 1rem;
+
+    color: var(--text-muted);
+}
+
+
+/* =========================
+   ACTION BUTTON
+========================= */
+
+.action-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 0.75rem;
+
+    width: 100%;
+
+    padding: 0.8rem 1rem;
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary-red),
+            var(--primary-red-dark)
+        );
+
+    color: white;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    border: none;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.action-button:hover {
+    transform: translateY(-2px);
+}
+
+.action-button.copied {
+    background:
+        linear-gradient(
+            90deg,
+            #22c55e,
+            #4ade80
+        );
+}
+
+
+/* =========================
+   BACK LINK
+========================= */
+
+.back-link {
+    display: block;
+
+    text-align: center;
+
+    margin-top: 1.5rem;
+
+    color: var(--text-muted);
+
+    text-decoration: none;
+
+    padding: 0.5rem;
+
+    border-radius: 8px;
+}
+
+.back-link:hover {
+    background-color: var(--card-bg);
+
+    color: var(--text-light);
+}
+
+
+/* =========================
+   TELEGRAM POPUP
+========================= */
+
+.telegram-popup {
+    position: fixed;
+
+    inset: 0;
+
+    margin: auto;
+
+    width: 90%;
+
+    max-width: 400px;
+
+    height: fit-content;
+
+    background: #0f172a;
+
+    padding: 30px 20px;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 0 40px rgba(79, 70, 229, 0.6);
+
+    text-align: center;
+
+    display: none;
+
+    z-index: 10000;
+}
+
+.telegram-popup h2 {
+    color: var(--primary-red);
+
+    margin-bottom: 1rem;
+}
+
+.telegram-popup button {
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 10px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-weight: 600;
+}
+
+.join-btn {
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary-red),
+            var(--primary-red-dark)
+        );
+
+    color: white;
+}
+
+.joined-btn {
+    background: var(--border-color);
+
+    color: white;
+}
+
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+@media (max-width: 600px) {
+
+    .reward-header {
+        min-height: 95px;
+
+        padding: 13px 16px;
+
+        gap: 15px;
+
+        border-radius: 22px;
+    }
+
+    .reward-coin {
+        width: 60px;
+        height: 60px;
+
+        font-size: 34px;
+
+        border-width: 4px;
+    }
+
+    .reward-title {
+        font-size: 1.35rem;
+    }
+
+    .reward-subtitle {
+        font-size: 0.95rem;
+
+        margin-top: 4px;
+    }
+
+    .reward-arrow {
+        font-size: 3rem;
+    }
+}
+
+</style>
 </head>
+
+
 <body>
 
-<div class="player-container" id="playerContainer">
-    <video id="video" autoplay muted playsinline preload="metadata"></video>
-    <div class="custom-watermark">LIVE · FANCODE</div>
+<main class="container">
 
-    <!-- Loading overlay -->
-    <div id="loading" class="loading-overlay">
-        <div class="spinner"></div>
-        Loading stream...
+<div id="stream-content">
+
+
+<!-- =========================
+     EARN REWARD HEADER
+========================= -->
+
+<div class="reward-header" onclick="window.location.href='https://www.profitableratecpmnetwork.com/dwt1p2wyii?key=4981da3909171c77962d25584aabaaef'">
+
+    <div class="reward-coin">
+        $
     </div>
+
+    <div class="reward-text">
+
+        <div class="reward-title">
+            EARN REWARD
+        </div>
+
+        <div class="reward-subtitle">
+            Tap to Claim <span>►</span>
+        </div>
+
+    </div>
+
+    <div class="reward-arrow">
+        →
+    </div>
+
 </div>
 
+
+<!-- =========================
+     VIDEO PLAYER
+========================= -->
+
+<div id="player-container">
+
+    <iframe
+        src="http://dekhobhai.pages.dev/H1"
+        style="width:100%; height:100%; border:0;"
+        allow="encrypted-media; autoplay"
+        allowfullscreen>
+    </iframe>
+
+</div>
+
+
+<!-- =========================
+     TELEGRAM
+========================= -->
+
+<div class="info-card">
+
+    <h2>
+        <i class="fa-solid fa-bell"></i>
+        Follow us for Updates!
+    </h2>
+
+    <a
+        href="https://t.me/+IhSW51QysxU3NzY1"
+        target="_blank"
+        class="action-button">
+
+        <i class="fa-brands fa-telegram"></i>
+
+        Click Here To Join Telegram
+
+    </a>
+
+</div>
+
+
+<!-- =========================
+     SHARE
+========================= -->
+
+<div class="info-card">
+
+    <h2>
+        <i class="fa-solid fa-link"></i>
+        Copy Link & Share
+    </h2>
+
+    <button
+        class="action-button"
+        id="shareButton">
+
+        <i class="fa-solid fa-share-nodes"></i>
+
+        Click Here To Share This Page Link
+
+    </button>
+
+</div>
+
+
+<a href="#" class="back-link">
+
+    <i class="fa-solid fa-arrow-left"></i>
+
+    Back to All Streams
+
+</a>
+
+
+</div>
+
+</main>
+
+    </button>
+
+</div>
+
+
 <script>
-    function _0xefbd(_0x1c7bd5,_0x22e1f0){const _0x48bebf=_0x48be();return _0xefbd=function(_0xefbd3a,_0x63da1a){_0xefbd3a=_0xefbd3a-0x105;let _0x54b1f7=_0x48bebf[_0xefbd3a];return _0x54b1f7;},_0xefbd(_0x1c7bd5,_0x22e1f0);}function _0x48be(){const _0x26f050=['1391752zmItWP','src','settings','ended','playerContainer','3230523uziaoQ','MEDIA_ERROR','play-large','catch','progress','4052304vhvnQd','map','withCredentials','container','Events','addEventListener','6496285buulLQ','display','length','fullscreen','type','closest','fatal','loadeddata','ErrorTypes','play','Init\x20error:','filter','quality','target','66bsKQid','video','paused','levels','visibilitychange','muted','currentLevel','isSupported','height','sort','46586UveazP','click','style','log','loading','loadSource','.plyr__control--pressed','DOMContentLoaded','13gaaEvZ','attachMedia','getElementById','7023504qgVuFZ','.plyr__control[data-plyr=\x22play\x22]','forEach','warn','recoverMediaError','error','volume','destroy','Fatal\x20HLS\x20error:','pause','198149JsALKg'];_0x48be=function(){return _0x26f050;};return _0x48be();}(function(_0x3fdd83,_0x15201d){const _0x3dc0bc=_0xefbd,_0x3348e9=_0x3fdd83();while(!![]){try{const _0x219804=parseInt(_0x3dc0bc(0x118))/0x1*(parseInt(_0x3dc0bc(0x110))/0x2)+parseInt(_0x3dc0bc(0x12b))/0x3+-parseInt(_0x3dc0bc(0x11b))/0x4+parseInt(_0x3dc0bc(0x136))/0x5+-parseInt(_0x3dc0bc(0x106))/0x6*(-parseInt(_0x3dc0bc(0x125))/0x7)+parseInt(_0x3dc0bc(0x126))/0x8+-parseInt(_0x3dc0bc(0x130))/0x9;if(_0x219804===_0x15201d)break;else _0x3348e9['push'](_0x3348e9['shift']());}catch(_0x44b798){_0x3348e9['push'](_0x3348e9['shift']());}}}(_0x48be,0xe9ea9),(function(){'use strict';const _0x18b889=_0xefbd;const _0x266e4f='https://sunny-relay-friend.lovable.app/api/public/px/sony?url=https://in-mc-flive.fancode.com/mumbai/4249214_hindi_hls_58428cc2d396091_1ta-di_h264/1080p.m3u8?hdntl=Expires=1790134901~_GO=Generated~acl=/mumbai/4249214_hindi_hls_58428cc2d396091_1ta-di_h264/*~Signature=AUh_zpXA5siZeReS7Mr0fzW-mrpsVxltO8HpICkyj1joxgqATCxK9oi6vR9Gp-5dmixKWglkiI7uK1WOV17hl2gtwycM',_0x308a36={'video':document[_0x18b889(0x11a)](_0x18b889(0x107)),'container':document[_0x18b889(0x11a)](_0x18b889(0x12a)),'loading':document['getElementById']('loading')};let _0x2963eb=null,_0xc8f032=null,_0x22b6ce=![],_0x59367e=![];function _0x5d18a0(){const _0x1bf4fd=_0x18b889;if(_0x308a36[_0x1bf4fd(0x114)])_0x308a36[_0x1bf4fd(0x114)][_0x1bf4fd(0x112)]['display']='none';}function _0x300aa7(){const _0x2ba381=_0x18b889;if(_0x308a36[_0x2ba381(0x114)])_0x308a36[_0x2ba381(0x114)][_0x2ba381(0x112)][_0x2ba381(0x137)]='flex';}function _0x5b0ee2(){const _0x499fc5=_0x18b889;if(_0x2963eb){try{_0x2963eb[_0x499fc5(0x122)]();}catch(_0x1da5c5){}_0x2963eb=null;}if(_0xc8f032){try{_0xc8f032['destroy']();}catch(_0x35e09c){}_0xc8f032=null;}}function _0x190ba4(_0x54d626){const _0x36e110=_0x18b889;_0x54d626[_0x36e110(0x135)]('play',function(){_0x22b6ce=![];}),document[_0x36e110(0x135)](_0x36e110(0x111),function(_0x188e28){const _0x2ad7d0=_0x36e110,_0x30b44a=_0x188e28[_0x2ad7d0(0x105)]['closest'](_0x2ad7d0(0x116))||_0x188e28[_0x2ad7d0(0x105)][_0x2ad7d0(0x13b)](_0x2ad7d0(0x11c));_0x30b44a&&(!_0x54d626['paused']?_0x22b6ce=!![]:_0x22b6ce=![]);}),_0x54d626['addEventListener']('pause',function(){const _0x22368f=_0x36e110;!_0x54d626[_0x22368f(0x129)]&&!_0x22b6ce&&_0x59367e&&setTimeout(()=>{const _0x2d2354=_0x22368f;_0x54d626[_0x2d2354(0x108)]&&!_0x54d626[_0x2d2354(0x129)]&&!_0x22b6ce&&_0x54d626[_0x2d2354(0x13f)]()[_0x2d2354(0x12e)](()=>{});},0x1f4),setTimeout(()=>{_0x22b6ce=![];},0x64);}),setInterval(()=>{const _0x3d9142=_0x36e110;_0x54d626[_0x3d9142(0x108)]&&!_0x54d626[_0x3d9142(0x129)]&&!_0x22b6ce&&_0x59367e&&_0x54d626[_0x3d9142(0x13f)]()[_0x3d9142(0x12e)](()=>{});},0xbb8);}async function _0x240c0e(){const _0x177d01=_0x18b889,_0x7f10f5=_0x308a36[_0x177d01(0x107)],_0x478078=_0x308a36[_0x177d01(0x133)];_0x300aa7(),_0x5b0ee2();try{if(Hls[_0x177d01(0x10d)]()){const _0x4cec0f=new Hls({'maxMaxBufferLength':0x64,'liveSyncDurationCount':0x3,'liveMaxLatencyDurationCount':0x6,'enableWorker':!![],'xhrSetup':_0x4f5aff=>{const _0x3d87cf=_0x177d01;_0x4f5aff[_0x3d87cf(0x132)]=![];}});_0x2963eb=_0x4cec0f,_0x4cec0f[_0x177d01(0x115)](_0x266e4f),_0x4cec0f[_0x177d01(0x119)](_0x7f10f5),_0x4cec0f['on'](Hls[_0x177d01(0x134)]['MANIFEST_PARSED'],function(){const _0xaaf6c9=_0x177d01,_0x567346=_0x4cec0f['levels'][_0xaaf6c9(0x131)](_0x5a96a5=>_0x5a96a5[_0xaaf6c9(0x10e)])[_0xaaf6c9(0x141)](Boolean)[_0xaaf6c9(0x10f)]((_0x2b0de8,_0x31366f)=>_0x2b0de8-_0x31366f);_0xc8f032=new Plyr(_0x7f10f5,{'controls':['play-large',_0xaaf6c9(0x13f),_0xaaf6c9(0x12f),'current-time','mute',_0xaaf6c9(0x121),'settings',_0xaaf6c9(0x139)],'settings':[_0xaaf6c9(0x142)],'quality':{'default':_0x567346[_0x567346[_0xaaf6c9(0x138)]-0x1]||0x2d0,'options':_0x567346[_0xaaf6c9(0x138)]?_0x567346:[0x168,0x1e0,0x2d0,0x438],'forced':!![],'onChange':_0x39f5e8=>{const _0xb78ece=_0xaaf6c9;_0x4cec0f[_0xb78ece(0x109)][_0xb78ece(0x11d)]((_0x12813a,_0x1bc53f)=>{const _0x647336=_0xb78ece;if(_0x12813a['height']===_0x39f5e8)_0x4cec0f[_0x647336(0x10c)]=_0x1bc53f;});}}}),_0x7f10f5[_0xaaf6c9(0x10b)]=![],_0x7f10f5[_0xaaf6c9(0x124)](),_0x59367e=!![],_0x7f10f5[_0xaaf6c9(0x135)](_0xaaf6c9(0x13d),_0x5d18a0),setTimeout(_0x5d18a0,0xbb8),_0x190ba4(_0x7f10f5),_0xc8f032['on']('qualitychange',_0x315e01=>{});}),_0x4cec0f['on'](Hls['Events']['ERROR'],function(_0x5e4b44,_0x2d844f){const _0x3c7b72=_0x177d01;if(_0x2d844f[_0x3c7b72(0x13c)]){if(_0x2d844f[_0x3c7b72(0x13a)]===Hls[_0x3c7b72(0x13e)]['NETWORK_ERROR'])_0x4cec0f['startLoad']();else _0x2d844f[_0x3c7b72(0x13a)]===Hls['ErrorTypes'][_0x3c7b72(0x12c)]?_0x4cec0f[_0x3c7b72(0x11f)]():(console[_0x3c7b72(0x11e)](_0x3c7b72(0x123),_0x2d844f),_0xe0407d(_0x7f10f5));}});}else _0xe0407d(_0x7f10f5);}catch(_0x17a2a6){console[_0x177d01(0x120)](_0x177d01(0x140),_0x17a2a6),_0xe0407d(_0x7f10f5);}}function _0xe0407d(_0x5a3637){const _0x4162f4=_0x18b889;console[_0x4162f4(0x113)]('Using\x20native\x20HLS\x20fallback'),_0x5b0ee2(),_0x5a3637[_0x4162f4(0x127)]=_0x266e4f,_0x5a3637[_0x4162f4(0x10b)]=![],_0xc8f032=new Plyr(_0x5a3637,{'controls':[_0x4162f4(0x12d),_0x4162f4(0x13f),'progress','current-time','mute',_0x4162f4(0x121),_0x4162f4(0x128),'fullscreen']}),_0x5a3637[_0x4162f4(0x124)](),_0x59367e=!![],_0x5a3637[_0x4162f4(0x135)]('loadeddata',_0x5d18a0),setTimeout(_0x5d18a0,0xbb8),_0x190ba4(_0x5a3637);}document[_0x18b889(0x135)](_0x18b889(0x117),()=>{_0x240c0e();}),document[_0x18b889(0x135)](_0x18b889(0x10a),()=>{const _0x43a567=_0x18b889,_0x4ec58e=_0x308a36['video'];!document['hidden']&&_0x4ec58e&&_0x4ec58e['paused']&&!_0x4ec58e[_0x43a567(0x129)]&&_0x59367e&&_0x4ec58e[_0x43a567(0x13f)]()[_0x43a567(0x12e)](()=>{});});}()));
+
+
+/* =========================
+   SHARE BUTTON
+========================= */
+
+document
+.getElementById('shareButton')
+.addEventListener('click', async () => {
+
+    const btn =
+        document.getElementById('shareButton');
+
+    const original =
+        btn.innerHTML;
+
+    try {
+
+        await navigator.clipboard.writeText(
+            window.location.href
+        );
+
+        btn.innerHTML =
+            '<i class="fa-solid fa-check"></i> Link Copied!';
+
+        btn.classList.add('copied');
+
+        setTimeout(() => {
+
+            btn.innerHTML = original;
+
+            btn.classList.remove('copied');
+
+        }, 2000);
+
+    } catch (error) {
+
+        alert(
+            'Unable to copy link. Please copy it manually.'
+        );
+
+    }
+
+});
+
+
+/* =========================
+   TELEGRAM POPUP
+========================= */
+
+setTimeout(() => {
+
+    document
+    .getElementById('telegramPopup')
+    .style.display = 'block';
+
+}, 1500);
+
+
 </script>
 <script>
-function _0x1838(_0x2ecea8,_0x3ab1f1){var _0x57b04e=_0x57b0();return _0x1838=function(_0x183862,_0x2b0ae4){_0x183862=_0x183862-0x12d;var _0x219c57=_0x57b04e[_0x183862];return _0x219c57;},_0x1838(_0x2ecea8,_0x3ab1f1);}var _0x33038e=_0x1838;(function(_0x76bdde,_0x17257c){var _0x2275fa=_0x1838,_0x363a91=_0x76bdde();while(!![]){try{var _0x34b4f5=-parseInt(_0x2275fa(0x12d))/0x1+-parseInt(_0x2275fa(0x137))/0x2+-parseInt(_0x2275fa(0x131))/0x3*(-parseInt(_0x2275fa(0x132))/0x4)+parseInt(_0x2275fa(0x138))/0x5*(-parseInt(_0x2275fa(0x135))/0x6)+-parseInt(_0x2275fa(0x130))/0x7*(-parseInt(_0x2275fa(0x136))/0x8)+-parseInt(_0x2275fa(0x12e))/0x9+parseInt(_0x2275fa(0x134))/0xa;if(_0x34b4f5===_0x17257c)break;else _0x363a91['push'](_0x363a91['shift']());}catch(_0x3e4d12){_0x363a91['push'](_0x363a91['shift']());}}}(_0x57b0,0xb47ed));function _0x57b0(){var _0x4920b2=['206808tEDOPN','731690cEBHzU','754209tKqBNs','3265209BgSGRg','Join\x20Our\x20Telegram\x20Channel\x20@Cricinsider365','14GLLQMw','230718bthqkk','76JsdaiY','_blank','5413150IxPQvy','54vCYIKY','5096944RmsMFa'];_0x57b0=function(){return _0x4920b2;};return _0x57b0();}confirm(_0x33038e(0x12f))==!![]&&window['open']('https://t.me/+IhSW51QysxU3NzY1',_0x33038e(0x133));
+// alert('Join Our Telegram For More Live Links')
+         if (confirm("Join Our Telegram Channel @Cricinsider365") == true) {
+         window.open("https://t.me/+IhSW51QysxU3NzY1", '_blank');
+     }
 </script>
+
 </body>
 </html>
