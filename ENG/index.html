@@ -1,168 +1,687 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>TG_@Cricinsider365</title>
-<script>(function(s){s.dataset.zone='11621694',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-    <meta name="referrer" content="no-referrer">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <!-- Plyr + HLS.js -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css" crossorigin="anonymous" />
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.7/dist/hls.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.min.js" crossorigin="anonymous"></script>
+<title>TG_@Cricinsider365</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@4.3.4/dist/controls.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <style>
-        /* Reset & Fullscreen */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        html, body {
-            width: 100%;
-            height: 100%;
-            background: #000;
-            overflow: hidden;
-            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
+<style>
 
-        .player-container {
-            position: fixed;
-            inset: 0;
-            background: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+:root {
+    --bg-color: #070b1a;
+    --primary-red: #4f46e5;
+    --primary-red-dark: #9333ea;
+    --card-bg: #0f172a;
+    --text-light: #e2e8f0;
+    --text-muted: #94a3b8;
+    --border-color: #1e293b;
+}
 
-        .plyr {
-            width: 100%;
-            height: 100%;
-        }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        .plyr__video-wrapper {
-            height: 100%;
-        }
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-light);
 
-        video {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            background: #000;
-        }
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-        /* Custom watermark */
-        .custom-watermark {
-            position: absolute;
-            z-index: 40;
-            pointer-events: none;
-            bottom: 80px;
-            right: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.10);
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
+    min-height: 100vh;
+    padding: 1rem;
+}
 
-        /* Loading overlay */
-        .loading-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            background: #000;
-            color: #fff;
-            z-index: 2000;
-            font-size: 18px;
-            pointer-events: none;
-        }
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, .15);
-            border-top: 4px solid #3b82f6;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin-bottom: 12px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
 
-        /* Plyr overrides for dark theme */
-        .plyr--video {
-            background: #000;
-        }
-        .plyr__controls {
-            background: rgba(0, 0, 0, 0.75) !important;
-            backdrop-filter: blur(8px);
-        }
-        .plyr__control--overlaid {
-            background: rgba(255, 59, 48, 0.9) !important;
-        }
-        .plyr__control--overlaid svg {
-            fill: #fff !important;
-        }
-        .plyr__progress__buffer {
-            background: rgba(255, 255, 255, 0.2) !important;
-        }
-        .plyr__progress__played {
-            background: #ff3b30 !important;
-        }
-        .plyr__menu__container {
-            background: rgba(20, 20, 20, 0.95) !important;
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 12px;
-        }
-        .plyr__menu__container .plyr__control--back {
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .plyr__volume input[type="range"] {
-            background: rgba(255,255,255,0.2) !important;
-        }
-        .plyr__volume input[type="range"]::-webkit-slider-thumb {
-            background: #ff3b30 !important;
-        }
-        .plyr__volume input[type="range"]::-moz-range-thumb {
-            background: #ff3b30 !important;
-        }
+    animation: fadeIn 0.5s ease-out forwards;
+}
 
-        @media (max-width: 700px) {
-            .custom-watermark {
-                font-size: 9px;
-                bottom: 70px;
-                right: 14px;
-            }
-        }
-    </style>
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================
+   EARN REWARD HEADER
+========================= */
+
+.reward-header {
+    width: 100%;
+    min-height: 115px;
+
+    padding: 18px 28px;
+
+    display: flex;
+    align-items: center;
+    gap: 25px;
+
+    border-radius: 28px;
+
+    background: linear-gradient(
+        100deg,
+        #ff9200 0%,
+        #ffad00 45%,
+        #ffd21a 100%
+    );
+
+    border: 2px solid rgba(255, 220, 80, 0.8);
+
+    box-shadow:
+        0 0 12px rgba(255, 190, 0, 0.8),
+        0 0 30px rgba(255, 200, 0, 0.55),
+        0 0 60px rgba(255, 190, 0, 0.3);
+
+    cursor: pointer;
+
+    margin-bottom: 1rem;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+    overflow: hidden;
+}
+
+.reward-header:hover {
+    transform: scale(1.01);
+
+    box-shadow:
+        0 0 18px rgba(255, 210, 0, 1),
+        0 0 40px rgba(255, 200, 0, 0.7),
+        0 0 75px rgba(255, 190, 0, 0.4);
+}
+
+
+/* =========================
+   GOLD COIN
+========================= */
+
+.reward-coin {
+    width: 75px;
+    height: 75px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 43px;
+    font-weight: 800;
+
+    color: #6b3d00;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #fff3a0 0%,
+            #ffd52e 25%,
+            #ffb300 60%,
+            #d98200 100%
+        );
+
+    border: 5px solid #e39a00;
+
+    box-shadow:
+        inset 0 3px 5px rgba(255,255,255,0.7),
+        inset 0 -5px 8px rgba(120,60,0,0.35),
+        0 4px 8px rgba(100,50,0,0.35),
+        0 0 15px rgba(255,230,80,0.8);
+
+    text-shadow:
+        1px 2px 2px rgba(255,255,255,0.35);
+
+    animation: coinGlow 1.5s infinite alternate;
+}
+
+@keyframes coinGlow {
+
+    from {
+        box-shadow:
+            inset 0 3px 5px rgba(255,255,255,0.7),
+            inset 0 -5px 8px rgba(120,60,0,0.35),
+            0 4px 8px rgba(100,50,0,0.35),
+            0 0 10px rgba(255,230,80,0.6);
+    }
+
+    to {
+        box-shadow:
+            inset 0 3px 5px rgba(255,255,255,0.7),
+            inset 0 -5px 8px rgba(120,60,0,0.35),
+            0 4px 8px rgba(100,50,0,0.35),
+            0 0 25px rgba(255,240,100,1);
+    }
+}
+
+
+/* =========================
+   REWARD TEXT
+========================= */
+
+.reward-text {
+    flex: 1;
+}
+
+.reward-title {
+    font-size: 2rem;
+
+    line-height: 1.1;
+
+    font-weight: 800;
+
+    letter-spacing: 0.5px;
+
+    color: #210d00;
+
+    text-shadow:
+        1px 2px 1px rgba(255,255,255,0.15);
+}
+
+.reward-subtitle {
+    margin-top: 7px;
+
+    font-size: 1.35rem;
+
+    font-weight: 500;
+
+    color: #6b3d00;
+}
+
+.reward-subtitle span {
+    font-size: 1rem;
+    margin-left: 3px;
+}
+
+
+/* =========================
+   RIGHT ARROW
+========================= */
+
+.reward-arrow {
+    font-size: 4rem;
+
+    line-height: 1;
+
+    font-weight: 300;
+
+    color: #795000;
+
+    text-shadow:
+        0 2px 3px rgba(255,255,255,0.2);
+
+    padding-right: 5px;
+
+    animation: arrowMove 1s infinite alternate;
+}
+
+@keyframes arrowMove {
+
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(6px);
+    }
+}
+
+
+/* =========================
+   PLAYER
+========================= */
+
+#player-container {
+    width: 100%;
+
+    aspect-ratio: 16/9;
+
+    max-height: 70vh;
+
+    background-color: #000;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+
+/* =========================
+   INFO CARD
+========================= */
+
+.info-card {
+    background-color: var(--card-bg);
+
+    border: 1px solid var(--border-color);
+
+    border-radius: 12px;
+
+    padding: 1.25rem;
+
+    margin-top: 1rem;
+
+    text-align: center;
+}
+
+.info-card h2 {
+    font-size: 1rem;
+
+    font-weight: 600;
+
+    margin-bottom: 1rem;
+
+    color: var(--text-muted);
+}
+
+
+/* =========================
+   ACTION BUTTON
+========================= */
+
+.action-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 0.75rem;
+
+    width: 100%;
+
+    padding: 0.8rem 1rem;
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary-red),
+            var(--primary-red-dark)
+        );
+
+    color: white;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    border: none;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.action-button:hover {
+    transform: translateY(-2px);
+}
+
+.action-button.copied {
+    background:
+        linear-gradient(
+            90deg,
+            #22c55e,
+            #4ade80
+        );
+}
+
+
+/* =========================
+   BACK LINK
+========================= */
+
+.back-link {
+    display: block;
+
+    text-align: center;
+
+    margin-top: 1.5rem;
+
+    color: var(--text-muted);
+
+    text-decoration: none;
+
+    padding: 0.5rem;
+
+    border-radius: 8px;
+}
+
+.back-link:hover {
+    background-color: var(--card-bg);
+
+    color: var(--text-light);
+}
+
+
+/* =========================
+   TELEGRAM POPUP
+========================= */
+
+.telegram-popup {
+    position: fixed;
+
+    inset: 0;
+
+    margin: auto;
+
+    width: 90%;
+
+    max-width: 400px;
+
+    height: fit-content;
+
+    background: #0f172a;
+
+    padding: 30px 20px;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 0 40px rgba(79, 70, 229, 0.6);
+
+    text-align: center;
+
+    display: none;
+
+    z-index: 10000;
+}
+
+.telegram-popup h2 {
+    color: var(--primary-red);
+
+    margin-bottom: 1rem;
+}
+
+.telegram-popup button {
+    width: 100%;
+
+    padding: 12px;
+
+    margin-top: 10px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-weight: 600;
+}
+
+.join-btn {
+    background:
+        linear-gradient(
+            90deg,
+            var(--primary-red),
+            var(--primary-red-dark)
+        );
+
+    color: white;
+}
+
+.joined-btn {
+    background: var(--border-color);
+
+    color: white;
+}
+
+
+/* =========================
+   MOBILE RESPONSIVE
+========================= */
+
+@media (max-width: 600px) {
+
+    .reward-header {
+        min-height: 95px;
+
+        padding: 13px 16px;
+
+        gap: 15px;
+
+        border-radius: 22px;
+    }
+
+    .reward-coin {
+        width: 60px;
+        height: 60px;
+
+        font-size: 34px;
+
+        border-width: 4px;
+    }
+
+    .reward-title {
+        font-size: 1.35rem;
+    }
+
+    .reward-subtitle {
+        font-size: 0.95rem;
+
+        margin-top: 4px;
+    }
+
+    .reward-arrow {
+        font-size: 3rem;
+    }
+}
+
+</style>
 </head>
+
+
 <body>
 
-<div class="player-container" id="playerContainer">
-    <video id="video" autoplay muted playsinline preload="metadata"></video>
-    <div class="custom-watermark">LIVE · FANCODE</div>
+<main class="container">
 
-    <!-- Loading overlay -->
-    <div id="loading" class="loading-overlay">
-        <div class="spinner"></div>
-        Loading stream...
+<div id="stream-content">
+
+
+<!-- =========================
+     EARN REWARD HEADER
+========================= -->
+
+<div class="reward-header" onclick="window.location.href='https://www.profitableratecpmnetwork.com/dwt1p2wyii?key=4981da3909171c77962d25584aabaaef'">
+
+    <div class="reward-coin">
+        $
     </div>
+
+    <div class="reward-text">
+
+        <div class="reward-title">
+            EARN REWARD
+        </div>
+
+        <div class="reward-subtitle">
+            Tap to Claim <span>►</span>
+        </div>
+
+    </div>
+
+    <div class="reward-arrow">
+        →
+    </div>
+
 </div>
 
+
+<!-- =========================
+     VIDEO PLAYER
+========================= -->
+
+<div id="player-container">
+
+    <iframe
+        src="https://dekhobhai.pages.dev/E2"
+        style="width:100%; height:100%; border:0;"
+        allow="encrypted-media; autoplay"
+        allowfullscreen>
+    </iframe>
+
+</div>
+
+
+<!-- =========================
+     TELEGRAM
+========================= -->
+
+<div class="info-card">
+
+    <h2>
+        <i class="fa-solid fa-bell"></i>
+        Follow us for Updates!
+    </h2>
+
+    <a
+        href="https://t.me/+IhSW51QysxU3NzY1"
+        target="_blank"
+        class="action-button">
+
+        <i class="fa-brands fa-telegram"></i>
+
+        Click Here To Join Telegram
+
+    </a>
+
+</div>
+
+
+<!-- =========================
+     SHARE
+========================= -->
+
+<div class="info-card">
+
+    <h2>
+        <i class="fa-solid fa-link"></i>
+        Copy Link & Share
+    </h2>
+
+    <button
+        class="action-button"
+        id="shareButton">
+
+        <i class="fa-solid fa-share-nodes"></i>
+
+        Click Here To Share This Page Link
+
+    </button>
+
+</div>
+
+
+<a href="#" class="back-link">
+
+    <i class="fa-solid fa-arrow-left"></i>
+
+    Back to All Streams
+
+</a>
+
+
+</div>
+
+</main>
+
+    </button>
+
+</div>
+
+
 <script>
-    function _0x2895(_0x45822f,_0x3d54ff){const _0x253c98=_0x253c();return _0x2895=function(_0x289562,_0x2a8d6d){_0x289562=_0x289562-0xf5;let _0x4a8da9=_0x253c98[_0x289562];return _0x4a8da9;},_0x2895(_0x45822f,_0x3d54ff);}(function(_0x258681,_0x5401fd){const _0x4be8bc=_0x2895,_0x17c6bf=_0x258681();while(!![]){try{const _0x2f4b93=parseInt(_0x4be8bc(0x115))/0x1+-parseInt(_0x4be8bc(0x11c))/0x2+parseInt(_0x4be8bc(0x108))/0x3+parseInt(_0x4be8bc(0x10f))/0x4*(parseInt(_0x4be8bc(0x129))/0x5)+parseInt(_0x4be8bc(0x104))/0x6+parseInt(_0x4be8bc(0x121))/0x7*(-parseInt(_0x4be8bc(0x112))/0x8)+-parseInt(_0x4be8bc(0x101))/0x9*(parseInt(_0x4be8bc(0xf7))/0xa);if(_0x2f4b93===_0x5401fd)break;else _0x17c6bf['push'](_0x17c6bf['shift']());}catch(_0x2c1a28){_0x17c6bf['push'](_0x17c6bf['shift']());}}}(_0x253c,0xd0787),(function(){'use strict';const _0x209b36=_0x2895;const _0x4649c3='https://sunny-relay-friend.lovable.app/api/public/px/sony?url=https://in-mc-flive.fancode.com/mumbai/4249214_english_hls_891bdfaa5646721_1ta-di_h264/1080p.m3u8?hdntl=Expires=1790134901~_GO=Generated~acl=/mumbai/4249214_english_hls_891bdfaa5646721_1ta-di_h264/*~Signature=AUh_zpV4meABD8UnMizuHHrFO0xCAXgf2Qzx4xHEK9-8Xh5aXdgh1hV5Qpe8eIROrteCeYJqrL2tdHYu-3lA0RZ_ZAgA',_0x256239={'video':document[_0x209b36(0x109)](_0x209b36(0x114)),'container':document['getElementById'](_0x209b36(0x111)),'loading':document[_0x209b36(0x109)]('loading')};let _0x38de33=null,_0x1fafcc=null,_0x9157e=![],_0x215279=![];function _0x117ce6(){const _0x1458d1=_0x209b36;if(_0x256239[_0x1458d1(0x12e)])_0x256239[_0x1458d1(0x12e)][_0x1458d1(0xfd)][_0x1458d1(0xfb)]=_0x1458d1(0x128);}function _0x1a76f3(){const _0x2fdf26=_0x209b36;if(_0x256239[_0x2fdf26(0x12e)])_0x256239['loading'][_0x2fdf26(0xfd)][_0x2fdf26(0xfb)]=_0x2fdf26(0x120);}function _0x62a6c4(){if(_0x38de33){try{_0x38de33['destroy']();}catch(_0x388fb8){}_0x38de33=null;}if(_0x1fafcc){try{_0x1fafcc['destroy']();}catch(_0x26a321){}_0x1fafcc=null;}}function _0x30eaaf(_0x100f35){const _0x59fa50=_0x209b36;_0x100f35['addEventListener'](_0x59fa50(0x10e),function(){_0x9157e=![];}),document['addEventListener']('click',function(_0x3a8df0){const _0x56f91b=_0x59fa50,_0x3d190e=_0x3a8df0[_0x56f91b(0x11f)][_0x56f91b(0x11b)]('.plyr__control--pressed')||_0x3a8df0['target']['closest'](_0x56f91b(0x107));_0x3d190e&&(!_0x100f35['paused']?_0x9157e=!![]:_0x9157e=![]);}),_0x100f35[_0x59fa50(0xf8)]('pause',function(){!_0x100f35['ended']&&!_0x9157e&&_0x215279&&setTimeout(()=>{const _0x3e8d74=_0x2895;_0x100f35['paused']&&!_0x100f35[_0x3e8d74(0x12d)]&&!_0x9157e&&_0x100f35['play']()[_0x3e8d74(0x103)](()=>{});},0x1f4),setTimeout(()=>{_0x9157e=![];},0x64);}),setInterval(()=>{const _0x1996a1=_0x59fa50;_0x100f35[_0x1996a1(0x11e)]&&!_0x100f35[_0x1996a1(0x12d)]&&!_0x9157e&&_0x215279&&_0x100f35[_0x1996a1(0x10e)]()[_0x1996a1(0x103)](()=>{});},0xbb8);}async function _0x414158(){const _0x2c68f7=_0x209b36,_0x550d05=_0x256239[_0x2c68f7(0x114)],_0x5bbbb1=_0x256239[_0x2c68f7(0x126)];_0x1a76f3(),_0x62a6c4();try{if(Hls[_0x2c68f7(0x125)]()){const _0x1dfb6e=new Hls({'maxMaxBufferLength':0x64,'liveSyncDurationCount':0x3,'liveMaxLatencyDurationCount':0x6,'enableWorker':!![],'xhrSetup':_0x5bf9f1=>{const _0x3a7e2d=_0x2c68f7;_0x5bf9f1[_0x3a7e2d(0x10d)]=![];}});_0x38de33=_0x1dfb6e,_0x1dfb6e[_0x2c68f7(0x117)](_0x4649c3),_0x1dfb6e[_0x2c68f7(0x12f)](_0x550d05),_0x1dfb6e['on'](Hls['Events'][_0x2c68f7(0xf5)],function(){const _0x24ce09=_0x2c68f7,_0x3dda98=_0x1dfb6e[_0x24ce09(0x102)]['map'](_0x16f9ef=>_0x16f9ef['height'])[_0x24ce09(0x110)](Boolean)['sort']((_0x14f193,_0x265fb5)=>_0x14f193-_0x265fb5);_0x1fafcc=new Plyr(_0x550d05,{'controls':[_0x24ce09(0x116),_0x24ce09(0x10e),_0x24ce09(0x118),'current-time',_0x24ce09(0x105),'volume',_0x24ce09(0x123),_0x24ce09(0x124)],'settings':['quality'],'quality':{'default':_0x3dda98[_0x3dda98[_0x24ce09(0x10c)]-0x1]||0x2d0,'options':_0x3dda98['length']?_0x3dda98:[0x168,0x1e0,0x2d0,0x438],'forced':!![],'onChange':_0x5eea9b=>{const _0x56e8b5=_0x24ce09;_0x1dfb6e[_0x56e8b5(0x102)][_0x56e8b5(0x12c)]((_0x1430fe,_0x4d7316)=>{const _0x5b4d70=_0x56e8b5;if(_0x1430fe[_0x5b4d70(0x11d)]===_0x5eea9b)_0x1dfb6e['currentLevel']=_0x4d7316;});}}}),_0x550d05['muted']=![],_0x550d05[_0x24ce09(0xfc)](),_0x215279=!![],_0x550d05[_0x24ce09(0xf8)](_0x24ce09(0x10a),_0x117ce6),setTimeout(_0x117ce6,0xbb8),_0x30eaaf(_0x550d05),_0x1fafcc['on'](_0x24ce09(0x12b),_0x5f3354=>{});}),_0x1dfb6e['on'](Hls[_0x2c68f7(0x100)]['ERROR'],function(_0xe6384e,_0x4de1c1){const _0x2910a3=_0x2c68f7;if(_0x4de1c1[_0x2910a3(0x119)]){if(_0x4de1c1['type']===Hls[_0x2910a3(0xf9)]['NETWORK_ERROR'])_0x1dfb6e[_0x2910a3(0x10b)]();else _0x4de1c1['type']===Hls['ErrorTypes']['MEDIA_ERROR']?_0x1dfb6e['recoverMediaError']():(console[_0x2910a3(0xff)](_0x2910a3(0xfe),_0x4de1c1),_0x4f9388(_0x550d05));}});}else _0x4f9388(_0x550d05);}catch(_0x51c8d4){console[_0x2c68f7(0x106)](_0x2c68f7(0x127),_0x51c8d4),_0x4f9388(_0x550d05);}}function _0x4f9388(_0x23f988){const _0x4cc8da=_0x209b36;console['log'](_0x4cc8da(0x113)),_0x62a6c4(),_0x23f988['src']=_0x4649c3,_0x23f988['muted']=![],_0x1fafcc=new Plyr(_0x23f988,{'controls':[_0x4cc8da(0x116),'play',_0x4cc8da(0x118),_0x4cc8da(0xf6),_0x4cc8da(0x105),_0x4cc8da(0x12a),_0x4cc8da(0x123),'fullscreen']}),_0x23f988[_0x4cc8da(0xfc)](),_0x215279=!![],_0x23f988['addEventListener'](_0x4cc8da(0x10a),_0x117ce6),setTimeout(_0x117ce6,0xbb8),_0x30eaaf(_0x23f988);}document[_0x209b36(0xf8)](_0x209b36(0xfa),()=>{_0x414158();}),document[_0x209b36(0xf8)](_0x209b36(0x11a),()=>{const _0x11ad95=_0x209b36,_0x127795=_0x256239[_0x11ad95(0x114)];!document[_0x11ad95(0x122)]&&_0x127795&&_0x127795[_0x11ad95(0x11e)]&&!_0x127795['ended']&&_0x215279&&_0x127795[_0x11ad95(0x10e)]()[_0x11ad95(0x103)](()=>{});});}()));function _0x253c(){const _0x347a56=['loading','attachMedia','MANIFEST_PARSED','current-time','271490dqwGSx','addEventListener','ErrorTypes','DOMContentLoaded','display','pause','style','Fatal\x20HLS\x20error:','warn','Events','495PpxItg','levels','catch','8047596mofCyS','mute','error','.plyr__control[data-plyr=\x22play\x22]','2038725uCkVDe','getElementById','loadeddata','startLoad','length','withCredentials','play','570736clxwZt','filter','playerContainer','50168SuMIDn','Using\x20native\x20HLS\x20fallback','video','1367248NNxEpy','play-large','loadSource','progress','fatal','visibilitychange','closest','3333250BXyrlv','height','paused','target','flex','98xmPvLr','hidden','settings','fullscreen','isSupported','container','Init\x20error:','none','25aHWrSz','volume','qualitychange','forEach','ended'];_0x253c=function(){return _0x347a56;};return _0x253c();}
+
+
+/* =========================
+   SHARE BUTTON
+========================= */
+
+document
+.getElementById('shareButton')
+.addEventListener('click', async () => {
+
+    const btn =
+        document.getElementById('shareButton');
+
+    const original =
+        btn.innerHTML;
+
+    try {
+
+        await navigator.clipboard.writeText(
+            window.location.href
+        );
+
+        btn.innerHTML =
+            '<i class="fa-solid fa-check"></i> Link Copied!';
+
+        btn.classList.add('copied');
+
+        setTimeout(() => {
+
+            btn.innerHTML = original;
+
+            btn.classList.remove('copied');
+
+        }, 2000);
+
+    } catch (error) {
+
+        alert(
+            'Unable to copy link. Please copy it manually.'
+        );
+
+    }
+
+});
+
+
+/* =========================
+   TELEGRAM POPUP
+========================= */
+
+setTimeout(() => {
+
+    document
+    .getElementById('telegramPopup')
+    .style.display = 'block';
+
+}, 1500);
+
+
 </script>
 <script>
-function _0x21ed(_0x124b98,_0x38826d){var _0x29a725=_0x29a7();return _0x21ed=function(_0x21ed7e,_0x37b675){_0x21ed7e=_0x21ed7e-0xaa;var _0x437764=_0x29a725[_0x21ed7e];return _0x437764;},_0x21ed(_0x124b98,_0x38826d);}var _0x283c01=_0x21ed;(function(_0x3c3f85,_0x159dcb){var _0x547e5a=_0x21ed,_0xb6a116=_0x3c3f85();while(!![]){try{var _0x5a0a82=parseInt(_0x547e5a(0xb6))/0x1*(-parseInt(_0x547e5a(0xb5))/0x2)+-parseInt(_0x547e5a(0xb1))/0x3+parseInt(_0x547e5a(0xb7))/0x4+-parseInt(_0x547e5a(0xb4))/0x5+parseInt(_0x547e5a(0xae))/0x6*(-parseInt(_0x547e5a(0xab))/0x7)+-parseInt(_0x547e5a(0xaa))/0x8*(parseInt(_0x547e5a(0xb3))/0x9)+parseInt(_0x547e5a(0xaf))/0xa;if(_0x5a0a82===_0x159dcb)break;else _0xb6a116['push'](_0xb6a116['shift']());}catch(_0x4c93d1){_0xb6a116['push'](_0xb6a116['shift']());}}}(_0x29a7,0x9b54c));function _0x29a7(){var _0x4030c3=['9928vJGekt','16352xkieCj','_blank','open','2394BeLocL','51308690srjPPJ','https://t.me/+IhSW51QysxU3NzY1','3490632WReknU','Join\x20Our\x20Telegram\x20Channel\x20@Cricinsider365','6498ctvBbG','1993170gdmYde','2gWHuqk','1195984ioGfBd','366380DnayuS'];_0x29a7=function(){return _0x4030c3;};return _0x29a7();}confirm(_0x283c01(0xb2))==!![]&&window[_0x283c01(0xad)](_0x283c01(0xb0),_0x283c01(0xac));
+// alert('Join Our Telegram For More Live Links')
+         if (confirm("Join Our Telegram Channel @Cricinsider365") == true) {
+         window.open("https://t.me/+IhSW51QysxU3NzY1", '_blank');
+     }
 </script>
+
 </body>
 </html>
