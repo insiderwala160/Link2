@@ -64,8 +64,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     fadeDelay: 3
   });
 
-  const STREAM_URL = 'https://a96aivottlinear-a.akamaihd.net/OTTB/iad-nitro/live/clients/dash/enc/7tdlacjghx/out/v1/78b77b2cd769444c8e477f9335363a18/cenc.mpd';
-  const RAW_KEYS = '72a6cfc603b0415a8edb3d191a1f718c:2868c3c10c569817643cbe43a92b4bdf';
+  const STREAM_URL = 'https://stream-relay-buddy.lovable.app/api/public/proxy?url=https://otte.cache.aiv-cdn.net/bom-nitro/live/clients/dash/enc/rhf2dwosdt/out/v1/ee550d2a68d846c797e6ce4de2e8b76d/cenc.mpd';
+  const RAW_KEYS = '69a5aa835a061ce64a630d1046727e40:d02feac8a999bd06bf4059bf33411749';
   const clearKeys = Object.fromEntries(
     RAW_KEYS.split(',').map(pair => pair.trim().split(':'))
   );
